@@ -1,3 +1,4 @@
+import { AlertModal } from "@/components/AlertModal/AlertModal";
 import { type ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router";
 
@@ -39,7 +40,7 @@ export const columns: ColumnDef<IBook>[] = [
     accessorKey: "available",
     header: "Available",
     cell: ({ row }) => (
-      <span>{row.original.available ? "✅ Yes" : "❌ No"}</span>
+      <span>{row.original.available ? "✅ Available" : "❌ Unavailable"}</span>
     ),
   },
   {
@@ -66,12 +67,13 @@ export const columns: ColumnDef<IBook>[] = [
           </Link>
 
           {/* Delete Button */}
-          <button
+          {/* <button
             // onClick={() => handleDelete(book._id!)}
             className="text-red-600 hover:underline"
           >
             Delete
-          </button>
+          </button> */}
+          <AlertModal book={book}></AlertModal>
         </div>
       );
     },

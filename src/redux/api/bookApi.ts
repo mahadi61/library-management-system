@@ -1,19 +1,34 @@
-// Need to use the React-specific entry point to allow generating React hooks
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // Define a service using a base URL and expected endpoints
 export const bookApi = createApi({
   reducerPath: "bookApi",
+  tagTypes: ["Book"],
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api/",
   }),
   endpoints: (builder) => ({
     getBooks: builder.query({
       query: () => `books`,
+      providesTags: ["Book"],
+    }),
+    addBook: builder.mutation({
+      query: (newBook) => ({
+        url: `books`,
+        method: "POST",
+        body: newBook,
+      }),
+      invalidatesTags: ["Book"],
+    }),
+    deleteBook: builder.mutation({
+      query: (id) => ({
+        url: `books/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Book"],
     }),
   }),
 });
 
-// Export hooks for usage in function components, which are
-// auto-generated based on the defined endpoints
-export const { useGetBooksQuery } = bookApi;
+export const { useGetBooksQuery, useAddBookMutation, useDeleteBookMutation } =
+  bookApi;
