@@ -172,6 +172,7 @@ const UpdateBook = () => {
                 <FormControl>
                   <Input
                     type="number"
+                    min={0}
                     {...field}
                     onChange={(e) => field.onChange(Number(e.target.value))}
                   />

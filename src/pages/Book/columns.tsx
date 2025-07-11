@@ -1,4 +1,5 @@
 import { AlertModal } from "@/components/AlertModal/AlertModal";
+import { Button } from "@/components/ui/button";
 import { type ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router";
 import { BorrowBookModal } from "./BorrowBook/BorrowBookModal";
@@ -20,6 +21,14 @@ export const columns: ColumnDef<IBook>[] = [
   {
     accessorKey: "title",
     header: "Title",
+    cell: ({ row }) => {
+      const book = row.original;
+      return (
+        <Link to={`/books/${book._id}`} className="hover:underline">
+          {book.title}
+        </Link>
+      );
+    },
   },
   {
     accessorKey: "author",
@@ -53,7 +62,9 @@ export const columns: ColumnDef<IBook>[] = [
         <div className="flex gap-1">
           {/* Edit Button */}
 
-          <Link to={`/edit-book/${book._id}`}>Edit</Link>
+          <Button variant={"outline"} className="bg-blue-500 text-white">
+            <Link to={`/edit-book/${book._id}`}>Edit</Link>
+          </Button>
 
           {/* Borrow Button */}
           <BorrowBookModal book={book} />
