@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -50,9 +51,16 @@ const AddBookForm = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const res = await addBook(values);
     if (res.error) {
-      const errorMessage = res.error.data.error.message;
+      let errorMessage = "Failed to add book.";
+      if ("data" in (res.error ?? {})) {
+        // @ts-ignore
+        errorMessage = res.error.data?.error?.message || errorMessage;
+      } else if ("message" in (res.error ?? {})) {
+        // @ts-ignore
+        errorMessage = res.error.message || errorMessage;
+      }
 
-      toast.error(errorMessage || "Failed to add book.");
+      toast.error(errorMessage);
     } else {
       toast.success("Book added successfully");
       form.reset();

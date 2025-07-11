@@ -5,7 +5,7 @@ export const bookApi = createApi({
   reducerPath: "bookApi",
   tagTypes: ["Book"],
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/",
+    baseUrl: "https://library-management-server-beryl-zeta.vercel.app/api/",
   }),
   endpoints: (builder) => ({
     getBooks: builder.query({

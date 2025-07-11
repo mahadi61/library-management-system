@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useBorrowSummaryQuery } from "@/redux/api/bookApi";
 
 const BorrowSummary = () => {
@@ -19,7 +20,7 @@ const BorrowSummary = () => {
             </tr>
           </thead>
           <tbody>
-            {data.data.map((entry, index) => (
+            {data.data.map((entry: any, index: any) => (
               <tr key={index} className="text-center">
                 <td className="border border-gray-300 px-4 py-2">
                   {entry.book?.isbn}
