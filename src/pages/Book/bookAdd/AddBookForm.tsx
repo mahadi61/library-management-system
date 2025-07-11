@@ -50,11 +50,13 @@ const AddBookForm = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const res = await addBook(values);
     if (res.error) {
-      toast.error("Failed to add book");
+      const errorMessage = res.error.data.error.message;
+
+      toast.error(errorMessage || "Failed to add book.");
     } else {
       toast.success("Book added successfully");
       form.reset();
-      navigate("/books"); // Redirect to books page after adding
+      navigate("/books");
     }
   }
 

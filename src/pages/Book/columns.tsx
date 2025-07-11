@@ -1,7 +1,7 @@
 import { AlertModal } from "@/components/AlertModal/AlertModal";
 import { type ColumnDef } from "@tanstack/react-table";
+import { Link } from "react-router";
 import { BorrowBookModal } from "./BorrowBook/BorrowBookModal";
-import { UpdateModal } from "./updateBook/UpdateModal";
 
 export interface IBook {
   _id: string;
@@ -53,7 +53,7 @@ export const columns: ColumnDef<IBook>[] = [
         <div className="flex gap-1">
           {/* Edit Button */}
 
-          <UpdateModal book={book} />
+          <Link to={`/edit-book/${book._id}`}>Edit</Link>
 
           {/* Borrow Button */}
           <BorrowBookModal book={book} />

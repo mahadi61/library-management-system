@@ -19,6 +19,9 @@ const Navbar: React.FC = () => {
             <Link to="/books" className="hover:underline">
               Books
             </Link>
+            <Link to="/create-book" className="hover:underline">
+              Add Book
+            </Link>
             <Link to="/borrow-summary" className="hover:underline">
               Borrow Summary
             </Link>
