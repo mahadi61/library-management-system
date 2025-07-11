@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -13,6 +12,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAddBookMutation } from "@/redux/api/bookApi";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -29,8 +30,9 @@ const formSchema = z.object({
   available: z.boolean().optional(),
 });
 
-const update = () => {
+const AddBookForm = () => {
   const [addBook, { isLoading }] = useAddBookMutation();
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,18 +43,18 @@ const update = () => {
       isbn: "",
       description: "",
       copies: 0,
-      available: true,
+      available: true, // Default to available
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     const res = await addBook(values);
     if (res.error) {
-      console.error("Failed to add book:", res.error);
+      toast.error("Failed to add book");
     } else {
-      console.log("Book added successfully:", res.data);
+      toast.success("Book added successfully");
       form.reset();
+      navigate("/books"); // Redirect to books page after adding
     }
   }
 
@@ -159,7 +161,7 @@ const update = () => {
         />
 
         {/* Available Checkbox */}
-        <FormField
+        {/* <FormField
           control={form.control}
           name="available"
           render={({ field }) => (
@@ -173,7 +175,7 @@ const update = () => {
               <FormLabel className="m-0">Available</FormLabel>
             </FormItem>
           )}
-        />
+        /> */}
 
         <div className="flex justify-center">
           <Button

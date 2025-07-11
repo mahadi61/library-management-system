@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -10,55 +9,51 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useAddBookMutation } from "@/redux/api/bookApi";
+import { useUpdateBookMutation } from "@/redux/api/bookApi";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
 
 const formSchema = z.object({
-  title: z.string().min(1, { message: "Title is required." }),
-  author: z.string().min(1, { message: "Author is required." }),
+  title: z.string(),
+  author: z.string(),
   genre: z.string().min(1, {
     message: "FICTION | NON_FICTION | SCIENCE | HISTORY | BIOGRAPHY | FANTASY",
   }),
-  isbn: z.string().min(1, { message: "ISBN is required." }),
-  description: z
-    .string()
-    .min(10, { message: "Description must be at least 10 characters." }),
+  isbn: z.string(),
+  description: z.string(),
   copies: z.number().min(0, { message: "Copies must be 0 or more." }),
   available: z.boolean().optional(),
 });
 
-const AddBookForm = () => {
-  const [addBook, { isLoading }] = useAddBookMutation();
+const UpdateBook = ({ id }: { id: string }) => {
+  const [updateBook, { isLoading }] = useUpdateBookMutation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      author: "",
-      genre: "",
-      isbn: "",
-      description: "",
-      copies: 0,
-      available: true,
+      available: false,
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    const res = await addBook(values);
+  async function onSubmit(id: string, values: z.infer<typeof formSchema>) {
+    const res = await updateBook({ id, ...values });
     if (res.error) {
-      console.error("Failed to add book:", res.error);
+      console.error("Failed to update book:", res.error);
+      toast.error("Failed to update book");
     } else {
-      console.log("Book added successfully:", res.data);
+      toast.success("Book Updated successfully");
       form.reset();
     }
   }
 
   return (
-    <Form {...form} >
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(() => onSubmit(id, form.getValues()))}
+        className="space-y-6"
+      >
         {/* Title */}
         <FormField
           control={form.control}
@@ -158,23 +153,6 @@ const AddBookForm = () => {
           )}
         />
 
-        {/* Available Checkbox */}
-        <FormField
-          control={form.control}
-          name="available"
-          render={({ field }) => (
-            <FormItem className="flex items-center space-x-2">
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <FormLabel className="m-0">Available</FormLabel>
-            </FormItem>
-          )}
-        />
-
         <div className="flex justify-center">
           <Button
             type="submit"
@@ -189,4 +167,4 @@ const AddBookForm = () => {
   );
 };
 
-export default AddBookForm;
+export default UpdateBook;

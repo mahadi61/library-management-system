@@ -1,9 +1,10 @@
 import { AlertModal } from "@/components/AlertModal/AlertModal";
 import { type ColumnDef } from "@tanstack/react-table";
-import { Link } from "react-router";
+import { BorrowBookModal } from "./BorrowBook/BorrowBookModal";
+import { UpdateModal } from "./updateBook/UpdateModal";
 
 export interface IBook {
-  _id?: string;
+  _id: string;
   title: string;
   author: string;
   genre: string;
@@ -49,30 +50,15 @@ export const columns: ColumnDef<IBook>[] = [
     cell: ({ row }) => {
       const book = row.original;
       return (
-        <div className="flex gap-2">
+        <div className="flex gap-1">
           {/* Edit Button */}
-          <Link
-            to={`/edit-book/${book._id}`}
-            className="text-blue-600 hover:underline"
-          >
-            Edit
-          </Link>
+
+          <UpdateModal book={book} />
 
           {/* Borrow Button */}
-          <Link
-            to={`/borrow/${book._id}`}
-            className="text-green-600 hover:underline"
-          >
-            Borrow
-          </Link>
+          <BorrowBookModal book={book} />
 
           {/* Delete Button */}
-          {/* <button
-            // onClick={() => handleDelete(book._id!)}
-            className="text-red-600 hover:underline"
-          >
-            Delete
-          </button> */}
           <AlertModal book={book}></AlertModal>
         </div>
       );

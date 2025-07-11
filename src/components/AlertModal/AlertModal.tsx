@@ -32,7 +32,9 @@ export function AlertModal({ book }: AlertModalProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="outline">Delete</Button>
+        <Button variant="outline" className="bg-red-500 text-white">
+          Delete
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -47,6 +49,7 @@ export function AlertModal({ book }: AlertModalProps) {
           <AlertDialogAction
             onClick={() => handleDelete(book._id!)}
             disabled={isLoading}
+            className="bg-red-500 text-white"
           >
             Delete
           </AlertDialogAction>
