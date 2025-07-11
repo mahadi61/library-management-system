@@ -32,6 +32,10 @@ A full-stack Library Management System where users can manage books, update avai
 
 ---
 
+### Live Link: https://library-management-nine-tau.vercel.app/
+
+### Server Github Link: https://github.com/mahadi61/library_management_server.git
+
 ## 🛠️ Installation
 
 ### 1. Clone the Repo
